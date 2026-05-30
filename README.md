@@ -1,5 +1,15 @@
 # SIN-Code-CoDocs-Bundle
 
+> [!WARNING]
+> **DEPRECATED — moved.** This standard has been merged into the
+> **[OpenSIN-Code/SIN-Code-Bundle](https://github.com/OpenSIN-Code/SIN-Code-Bundle)**
+> stack and is now a built-in subsystem there. This repository is archived and
+> read-only; no further updates will be made here.
+>
+> - Install: `pip install -e .` from SIN-Code-Bundle, then `sin codocs install-skill`
+> - Validate references: `sin codocs check [root]`
+> - Docs: [`docs/CODOCS.md`](https://github.com/OpenSIN-Code/SIN-Code-Bundle/blob/main/docs/CODOCS.md)
+
 **Co-located Docs Standard** für Hermes Agent + OpenCode.
 
 Jede Code-Datei bekommt eine `.doc.md` Partner-Datei im selben Ordner.
