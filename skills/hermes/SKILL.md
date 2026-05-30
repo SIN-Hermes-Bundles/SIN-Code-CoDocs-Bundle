@@ -64,3 +64,65 @@ grep -rn 'Docs:' --include='*.py' --include='*.ts' --include='*.rs' --include='M
 - `docs/` Ordner für Architektur-Doku, ADRs, Setup-Guides
 - README.md für Projekt-Überblick
 - KEINE `.doc.md` für reine Config-Dateien ohne Logik (`.gitignore`, `.prettierrc`, etc.)
+
+---
+
+## MarkItDown Integration (Microsoft)
+
+**Convert any file to Markdown** via `markitdown` (CLI) or `from markitdown import MarkItDown` (Python).
+
+Microsoft's tool for LLM-ready Markdown from: PDF, DOCX, PPTX, XLSX, HTML, Images (OCR), Audio (transcription), YouTube, EPUB, CSV, JSON, XML, ZIP.
+
+### Installation (via pipx)
+
+```bash
+pipx install markitdown
+```
+
+### CLI Usage
+
+```bash
+# File → stdout
+markitdown document.pdf > document.md
+
+# File → output file
+markitdown document.pdf -o document.md
+
+# Pipe
+cat document.pdf | markitdown
+
+# With plugins
+markitdown --use-plugins document.pdf
+```
+
+### Python API
+
+```python
+from markitdown import MarkItDown
+
+md = MarkItDown()
+result = md.convert("document.pdf")
+print(result.text_content)
+
+# With LLM image descriptions (PPTX, Images)
+from openai import OpenAI
+md = MarkItDown(llm_client=OpenAI(), llm_model="gpt-4o")
+result = md.convert("presentation.pptx")
+```
+
+### Integration mit CoDocs
+
+```
+input.pdf → markitdown → input.doc.md
+```
+
+Bei Altprojekten ohne `.doc.md`:
+1. `markitdown README.md > README.doc.md` — bestehende Doku konvertieren
+2. `markitdown spec.pdf > spec.doc.md` — externe Spezifikationen einbinden
+3. `# Docs: spec.doc.md` in Code-Datei einfügen
+
+### Wichtige Limits
+
+- `markitdown` arbeitet **lokal** (keine Cloud-API nötig für Basic-Formate)
+- Für beste OCR-Qualität: `pip install 'markitdown[pdf]'` + Azure Document Intelligence
+- `--use-plugins` für Community-Plugins (`#markitdown-plugin` auf GitHub)

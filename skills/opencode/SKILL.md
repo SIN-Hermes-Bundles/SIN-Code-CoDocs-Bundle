@@ -61,3 +61,50 @@ grep -rn 'Docs:' --include='*.py' --include='*.ts' --include='*.rs' --include='M
 - `docs/` Ordner für Architektur-Doku
 - README.md für Projekt-Überblick
 - KEINE `.doc.md` für reine Config-Dateien ohne Logik (`.gitignore`, etc.)
+
+---
+
+## MarkItDown Integration (Microsoft)
+
+**Convert any file to Markdown** via `markitdown` (CLI) or `from markitdown import MarkItDown` (Python).
+
+Formats: PDF, DOCX, PPTX, XLSX, HTML, Images (OCR), Audio (transcription), YouTube, EPUB, CSV, JSON, XML, ZIP.
+
+### Installation
+
+```bash
+pipx install markitdown
+```
+
+### CLI Usage
+
+```bash
+# File → stdout
+markitdown document.pdf > document.md
+
+# File → output file
+markitdown document.pdf -o document.md
+
+# Pipe
+cat document.pdf | markitdown
+
+# With plugins
+markitdown --use-plugins document.pdf
+```
+
+### Python API
+
+```python
+from markitdown import MarkItDown
+md = MarkItDown()
+result = md.convert("document.pdf")
+print(result.text_content)
+```
+
+### Integration mit CoDocs
+
+```
+input.pdf → markitdown → input.doc.md
+```
+
+Bei Altprojekten: `markitdown` erzeugt `.doc.md` aus bestehenden PDFs/Spezs.

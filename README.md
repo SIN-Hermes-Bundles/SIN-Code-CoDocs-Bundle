@@ -28,15 +28,29 @@ cp skills/opencode/SKILL.md ~/.config/opencode/skills/sin-codocs/
 
 Siehe [`SKILL.md`](skills/hermes/SKILL.md)
 
-## Beispiel
+## Tools
+
+| Tool | Install | Nutzung |
+|------|---------|---------|
+| **MarkItDown** (Microsoft) | `pipx install markitdown` | PDF/Office → `.doc.md` Konvertierung |
+
+## Beispiele
 
 ```python
 # Docs: router.doc.md
-
 from http.server import HTTPServer
 ```
 
-→ [`router.doc.md`](example/router.doc.md) erklärt Config, Imports, Rationale.
+→ [`router.doc.md`](example/router.doc.md)
+
+### MarkItDown Pipeline
+
+```bash
+markitdown spec.pdf -o spec.doc.md
+# → # Docs: spec.doc.md in Code-Datei
+```
+
+→ [`markitdown-usage.md`](example/markitdown-usage.md)
 
 ---
 
