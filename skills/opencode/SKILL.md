@@ -66,46 +66,24 @@ grep -rn 'Docs:' --include='*.py' --include='*.ts' --include='*.rs' --include='M
 
 ## MarkItDown Integration (Microsoft)
 
-**Convert any file to Markdown** via `markitdown` (CLI) or `from markitdown import MarkItDown` (Python).
-
-Formats: PDF, DOCX, PPTX, XLSX, HTML, Images (OCR), Audio (transcription), YouTube, EPUB, CSV, JSON, XML, ZIP.
-
-### Unterstützte Formate
-
-| Format | CLI | Python |
-|--------|-----|--------|
-| PDF | `markitdown file.pdf` | `md.convert("file.pdf")` |
-| PowerPoint | `markitdown file.pptx` | `md.convert("file.pptx")` |
-| Word | `markitdown file.docx` | `md.convert("file.docx")` |
-| Excel | `markitdown file.xlsx` | `md.convert("file.xlsx")` |
-| Images (EXIF + OCR) | `markitdown photo.jpg` | `md.convert("photo.jpg")` |
-| Audio (Transkription) | `markitdown recording.mp3` | `md.convert("recording.mp3")` |
-| HTML | `markitdown page.html` | `md.convert("page.html")` |
-| CSV / JSON / XML | `markitdown data.csv` | `md.convert("data.csv")` |
-| EPUB | `markitdown book.epub` | `md.convert("book.epub")` |
-| YouTube URLs | `markitdown https://...` | `md.convert("https://...")` |
-| ZIP (iteriert Inhalt) | `markitdown archive.zip` | `md.convert("archive.zip")` |
+**Konvertiert alles zu Markdown** für LLM-Konsum: PDF, DOCX, PPTX, XLSX, Images (OCR), Audio, HTML, CSV/JSON/XML, ZIP, YouTube, EPUB, Outlook MSG.
 
 ### Installation
 
 ```bash
-pipx install markitdown
+pipx install markitdown                          # Empfohlen
+pip install 'markitdown[pdf, docx, pptx, xlsx]'   # Minimal
+pip install 'markitdown[all]'                     # Vollständig
 ```
 
-### CLI Usage
+### CLI
 
 ```bash
-# File → stdout
-markitdown document.pdf > document.md
-
-# File → output file
-markitdown document.pdf -o document.md
-
-# Pipe
-cat document.pdf | markitdown
-
-# With plugins
-markitdown --use-plugins document.pdf
+markitdown file.pdf > file.md                     # stdout
+markitdown file.pdf -o file.md                    # Ausgabedatei
+cat file.pdf | markitdown                         # Pipe
+markitdown --use-plugins file.pdf                 # Mit Plugins
+markitdown file.pdf --use-cu --cu-endpoint "<e>"  # Azure Content Understanding
 ```
 
 ### Python API
@@ -115,12 +93,53 @@ from markitdown import MarkItDown
 md = MarkItDown()
 result = md.convert("document.pdf")
 print(result.text_content)
+
+# Mit LLM Vision (Bildbeschreibung in PPTX/Images)
+from openai import OpenAI
+md = MarkItDown(llm_client=OpenAI(), llm_model="gpt-4o")
+
+# Security: nur lokale Dateien
+result = md.convert_local("document.pdf")
 ```
 
-### Integration mit CoDocs
+### Plugins
 
-```
-input.pdf → markitdown → input.doc.md
+```bash
+pip install markitdown-ocr openai
 ```
 
-Bei Altprojekten: `markitdown` erzeugt `.doc.md` aus bestehenden PDFs/Spezs.
+```python
+md = MarkItDown(enable_plugins=True, llm_client=OpenAI(), llm_model="gpt-4o")
+result = md.convert("document_with_images.pdf")
+```
+
+### Azure Content Understanding (Cloud)
+
+Für **Video**, **Audio** (besser als lokal), **strukturierte Felder** (Rechnungen → YAML):
+
+```python
+md = MarkItDown(cu_endpoint="<endpoint>")
+result = md.convert("meeting.mp4")  # → prebuilt-videoSearch
+result = md.convert("call.wav")     # → prebuilt-audioSearch
+
+# Custom Analyzer
+md = MarkItDown(cu_endpoint="<endpoint>", cu_analyzer_id="my-invoice-analyzer")
+result = md.convert("invoice.pdf")  # → YAML Front Matter
+```
+
+### Security
+
+- `convert()` hat volle File-IO-Rechte. Niemals untrusted Input übergeben
+- Besser: `convert_local()`, `convert_stream()` für kontrollierten Zugriff
+
+### CoDocs Pipeline
+
+```bash
+for f in docs/*.pdf docs/*.docx docs/*.pptx; do
+    markitdown "$f" -o "${f%.*}.doc.md"
+done
+```
+
+### Referenz
+
+https://github.com/microsoft/markitdown | `pipx install markitdown`
