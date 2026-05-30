@@ -73,6 +73,22 @@ grep -rn 'Docs:' --include='*.py' --include='*.ts' --include='*.rs' --include='M
 
 Microsoft's tool for LLM-ready Markdown from: PDF, DOCX, PPTX, XLSX, HTML, Images (OCR), Audio (transcription), YouTube, EPUB, CSV, JSON, XML, ZIP.
 
+### Unterstützte Formate
+
+| Format | CLI | Python |
+|--------|-----|--------|
+| PDF | ✅ `markitdown file.pdf` | `md.convert("file.pdf")` |
+| PowerPoint | ✅ `markitdown file.pptx` | `md.convert("file.pptx")` |
+| Word | ✅ `markitdown file.docx` | `md.convert("file.docx")` |
+| Excel | ✅ `markitdown file.xlsx` | `md.convert("file.xlsx")` |
+| Images (EXIF + OCR) | ✅ `markitdown photo.jpg` | `md.convert("photo.jpg")` |
+| Audio (Transkription) | ✅ `markitdown recording.mp3` | `md.convert("recording.mp3")` |
+| HTML | ✅ `markitdown page.html` | `md.convert("page.html")` |
+| CSV / JSON / XML | ✅ `markitdown data.csv` | `md.convert("data.csv")` |
+| EPUB | ✅ `markitdown book.epub` | `md.convert("book.epub")` |
+| YouTube URLs | ✅ `markitdown https://...` | `md.convert("https://...")` |
+| ZIP (iteriert Inhalt) | ✅ `markitdown archive.zip` | `md.convert("archive.zip")` |
+
 ### Installation (via pipx)
 
 ```bash
