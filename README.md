@@ -37,3 +37,18 @@ from http.server import HTTPServer
 ```
 
 → [`router.doc.md`](example/router.doc.md) erklärt Config, Imports, Rationale.
+
+---
+
+<!-- gitnexus:start -->
+## GitNexus — Repository List
+
+This bundle is part of the **SIN-Hermes-Bundles** group. Repos in `SIN-Hermes-Bundles`:
+
+| Repo | Description |
+|------|-------------|
+| [SIN-Code-CoDocs-Bundle](https://github.com/SIN-Hermes-Bundles/SIN-Code-CoDocs-Bundle) | Co-located Docs Standard (dieses Repo) |
+| [SIN-Hermes-Bundles/SINator-fireworksai](https://github.com/SIN-Hermes-Bundles/SINator-fireworksai) | Fireworks AI API Key Pool + Rotator |
+
+Index: `gitnexus://repo/SIN-Code-CoDocs-Bundle/context`
+<!-- gitnexus:end -->
